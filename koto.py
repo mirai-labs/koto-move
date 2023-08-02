@@ -1,5 +1,5 @@
 import logging
-
+import os
 logging.basicConfig(
 	filename="koto.log",
 	filemode="w",
@@ -16,13 +16,13 @@ from pysui.sui.sui_types.scalars import ObjectID, SuiU64
 from pysui.sui.sui_types.bcs import OptionalU64
 cfg = SuiConfig.user_config(
 	rpc_url="http://localhost:9000",
-	prv_keys=["AIk9y2ecOdbQvQC/GLqdZ6SyEVD4TWLYZ3NO73p7ERBR"],
+	prv_keys=[os.environ["KEY"]],
 )
 
 client = SyncClient(cfg)
 
 txer = SuiTransaction(client)
-package = "0xbc2738ba27f9076c8280749b1e0c6b1cbc5819b1d8bc471224979ce4c7e874af::koto"
+package = os.environ["PACKAGE"] + "::koto"
 
 def create_bal(recipient: str, kotocap: str):
 	tx = SuiTransaction(client)
@@ -42,5 +42,5 @@ def burn_from_bal(bal:str, kotocap: str, value: int):
 	tx.move_call(target=package+"::burn", arguments=args)
 	return tx.execute()
 
-result = handle_result(burn_from_bal("0x3baf2c6617e56a9c98f5d45eb7d79bdcd24a606148e324b5c2416a43cc8beaf8","0xfe835dad4314610da52ac49be820c54d2781e124b43799e1ccfc7b9a1d65032f",1000))
-print(result.effects.status.status)
+def banned_list(registry: str):
+	return client.get_object(ObjectID(registry))
