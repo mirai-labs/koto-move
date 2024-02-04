@@ -1,10 +1,9 @@
 [package]
 name = "koto"
 version = "0.0.1"
-published-at = "0x7ee444544fe860acf9ad7864a9b0a0faf1e8527f393c199f285d2f180016579e"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
 
 [addresses]
-koto = "0x7ee444544fe860acf9ad7864a9b0a0faf1e8527f393c199f285d2f180016579e"
+koto = "0x0"
