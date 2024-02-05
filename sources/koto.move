@@ -2,13 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 module koto::koto {
+
     use std::option;
     
+    use sui::balance::{Self, Balance};
     use sui::coin::{Self, Coin, TreasuryCap};
+    use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
 
     struct KOTO has drop {}
+    
+    struct KotoTreasuryCap has key, store {
+        id: UID,
+    }
+
+    struct KotoTreasury has key {
+        id: UID,
+        balance: Balance<KOTO>,
+    }
 
     #[allow(unused_function)]
     fun init(
@@ -25,23 +37,17 @@ module koto::koto {
             ctx,
         );
 
+        // Mint entire supply of KOTO.
+        let supply = coin::mint_balance(&mut treasury_cap, 1_000_000_000_000);
+
+        // Create treasury.
+        let treasury = KotoTreasury {
+            id: object::new(ctx),
+            balance: supply,
+        };
+
+        transfer::share_object(treasury);
         transfer::public_freeze_object(metadata);
-        transfer::public_transfer(treasury_cap, tx_context::sender(ctx))
-    }
-
-    public entry fun mint(
-        treasury_cap: &mut TreasuryCap<KOTO>,
-        amount: u64,
-        recipient: address,
-        ctx: &mut TxContext,
-    ) {
-        coin::mint_and_transfer(treasury_cap, amount, recipient, ctx)
-    }
-
-    public entry fun burn(
-        treasury_cap: &mut TreasuryCap<KOTO>,
-        coin: Coin<KOTO>,
-    ) {
-        coin::burn(treasury_cap, coin);
+        transfer::public_freeze_object(treasury_cap);
     }
 }
