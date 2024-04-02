@@ -1,6 +1,6 @@
 {
-    "KotoPackageId": "0x12d214fcecd33de71cccf021280178f5e73978597f7a6d64ba07a8ab925872ba",
-    "KotoTreasuryCap": "0x18103d520cd5c3dae635c6fb00a0ec0143bceb736cfaa620a5aaacbed88438db",
-    "KotoUpgradeCap": "0x43a8e10c65b889363f5728e77d9c4e070eb25e5dcf63f4e72eb62ebb7a12d43e",
-    "KotoCoinMetadata": "0x8a2e46c67703f7e3afff5951f745b7a10e60377b134d6e392f418986be2b84e9"
+    "KotoUpgradeCap": "0x1829a8c3171297aed88e1a69a9902fed72d95322824215ab072d33c6054f923c",
+    "KotoPackageId": "0x51a74b7a7515c3c9f69bc6e5667a6783a23b60597fdb712e4b74ad38213a1dfa",
+    "KotoCoinMetadata": "0x6fe9bc27f63f17f6b7160dcfbf2453d1a8f0fde4dba090c8a0ed6e375cf39549",
+    "KotoTreasuryCap": "0xc3d0f46725c6ddfaf58d76e1ad3e812f230106e01c61c2b8f821e6501a1d4399"
 }

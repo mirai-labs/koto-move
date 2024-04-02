@@ -3,7 +3,7 @@ import subprocess
 
 
 def deploy():
-    cmd = "sui client publish --gas-budget 500000000 --skip-dependency-verification --with-unpublished-dependencies --json"
+    cmd = "sui client publish --gas-budget 500000000 --json"
 
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
     output, error = process.communicate()
