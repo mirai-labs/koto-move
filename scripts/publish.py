@@ -2,6 +2,18 @@ import json
 import subprocess
 
 
+def transfer_upgrade_cap(
+    upgrade_cap_id: str,
+):
+    cmd = f"sui client transfer --to 0x0000000000000000000000000000000000000000000000000000000000000000 --object-id {upgrade_cap_id} --gas-budget 1000000000"
+
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    output, error = process.communicate()
+    print(f"Transferred UpgradeCap: {upgrade_cap_id}")
+
+    return
+
+
 def deploy():
     cmd = "sui client publish --gas-budget 500000000 --json"
 
@@ -29,6 +41,8 @@ def deploy():
 
     with open("./koto.json", "w+") as f:
         json.dump(config, f, indent=4)
+
+    transfer_upgrade_cap(config["KotoUpgradeCap"])
 
 
 deploy()
