@@ -1,4 +1,4 @@
-// Copyright (c) Studio Mirai, LLC
+// Copyright (c) Studio Mirai, Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
 module koto::koto {
@@ -6,7 +6,8 @@ module koto::koto {
     use std::ascii::{Self};
     use std::option;
     
-    use sui::coin::{Self};
+    use sui::coin::{Self, TreasuryCap};
+    use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
     use sui::url::{Self};
@@ -15,6 +16,12 @@ module koto::koto {
 
     const TOTAL_SUPPLY: u64 = 1_000_000_000_000;
 
+    struct Gomi has key {
+        id: UID,
+        treasury_cap: TreasuryCap<KOTO>
+    }
+
+    #[allow(lint(freeze_wrapped))]
     fun init(
         witness: KOTO,
         ctx: &mut TxContext,
@@ -29,9 +36,19 @@ module koto::koto {
             ctx
         );
 
-        coin::mint_and_transfer(&mut treasury_cap, TOTAL_SUPPLY, tx_context::sender(ctx), ctx);
+        coin::mint_and_transfer(
+            &mut treasury_cap,
+            TOTAL_SUPPLY,
+            tx_context::sender(ctx),
+            ctx,
+        );
 
+        let gomi = Gomi {
+            id: object::new(ctx),
+            treasury_cap: treasury_cap,
+        };
+        
+        transfer::freeze_object(gomi);
         transfer::public_freeze_object(metadata);
-        transfer::public_freeze_object(treasury_cap);
     }
 }
